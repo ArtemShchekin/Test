@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор скидки</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      color: #1f2933;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+      width: min(480px, 90vw);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .slider-container {
+      margin-top: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .value-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #52606d;
+    }
+
+    .discount-output {
+      margin-top: 32px;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+      color: white;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: #7b8794;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Рассчитайте скидку</h1>
+    <section class="slider-container">
+      <label for="volume">Выберите значение (0–100)</label>
+      <input type="range" id="volume" min="0" max="100" value="0">
+      <div class="value-row">
+        <span>Текущее значение: <strong id="current-value">0</strong></span>
+        <span>Макс: 100</span>
+      </div>
+    </section>
+    <div class="discount-output" aria-live="polite">
+      Скидка: <span id="discount">0%</span>
+    </div>
+    <p class="hint">Скидка меняется автоматически в зависимости от выбранного значения.</p>
+  </main>
+  <script>
+    const slider = document.getElementById('volume');
+    const currentValue = document.getElementById('current-value');
+    const discountOutput = document.getElementById('discount');
+
+    function calculateDiscount(value) {
+      const numberValue = Number(value);
+
+      if (numberValue <= 15) {
+        return '0%';
+      }
+      if (numberValue <= 55) {
+        return '10%';
+      }
+      if (numberValue <= 99) {
+        return '20%';
+      }
+      return '30%';
+    }
+
+    function updateOutputs() {
+      const { value } = slider;
+      currentValue.textContent = value;
+      discountOutput.textContent = calculateDiscount(value);
+    }
+
+    slider.addEventListener('input', updateOutputs);
+
+    updateOutputs();
+  </script>
+</body>
+</html>
